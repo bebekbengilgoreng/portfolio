@@ -6,10 +6,13 @@ export const portfolio = {
     title: "Medical student working across software engineering, research, and digital systems.",
     introduction:
       "I study medicine at the University of Indonesia and work on projects where clinical questions meet software. My interests span medical technology, research, and the digital systems that support international health organizations.",
-    metadata: ["University of Indonesia", "Medicine", "Indonesia"],
+    profileFacts: [
+      ["Education", "MD candidate, University of Indonesia · 2024–2030"],
+      ["Focus", "Clinical AI, medical imaging, and digital health"],
+    ],
     links: [
-      { label: "GitHub", href: "#", status: "Link to be added" },
-      { label: "LinkedIn", href: "#", status: "Link to be added" },
+      { label: "GitHub", href: "https://github.com/", status: "View GitHub" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/michiel-aelis/", status: "View LinkedIn profile" },
       { label: "Email", href: "mailto:michielaelisw@gmail.com", status: "Write an email" },
     ],
   },
@@ -17,7 +20,6 @@ export const portfolio = {
     { label: "Experience", href: "#experience" },
     { label: "Projects", href: "#projects" },
     { label: "Research", href: "#research" },
-    { label: "About", href: "#about" },
     { label: "Contact", href: "#contact" },
   ],
   projects: [
@@ -27,11 +29,12 @@ export const portfolio = {
       role: "Research Project",
       organization: "Medical Imaging",
       period: "Year to be added",
+      href: "https://dicom.michielaelis.site/",
       description:
         "Developed a high-performance, production-grade cross-platform DICOM viewer for desktop-native and mobile-native platforms, with integrated AI-assisted segmentation.",
       metadata: [
         ["Role", "Research project"],
-        ["Stack", "To be added"],
+        ["Stack", "Tauri · VT · macOS · iOS"],
         ["Platform", "Web, iOS, iPadOS, macOS"],
         ["Research area", "AI-assisted medical imaging"],
       ],
@@ -43,6 +46,7 @@ export const portfolio = {
       role: "Researcher",
       organization: "Clinical AI",
       period: "2026–present",
+      href: null,
       description: "Contributed to the development and clinical validation of an AI-based medical documentation system.",
       metadata: [],
       featured: false,
@@ -53,6 +57,7 @@ export const portfolio = {
       role: "Co-founder",
       organization: "Medtech",
       period: "2026–present",
+      href: null,
       description: "Led research and development for medtech devices as part of the founding team.",
       metadata: [],
       featured: false,
@@ -63,6 +68,7 @@ export const portfolio = {
       role: "Website Developer",
       organization: "IFMSA",
       period: "Year to be added",
+      href: null,
       description:
         "Developed and maintained the MSI 45 webpage within IFMSA's existing website architecture, integrating modern web development while maintaining compatibility with the federation's platform, content structure, branding, usability, and performance.",
       metadata: [],
@@ -99,7 +105,6 @@ export const portfolio = {
     },
   ],
   research: {
-    note: "Publications, manuscripts, and conference abstracts will appear here when their details are ready to share.",
     types: ["Publications", "Manuscripts", "Conference abstracts", "Ongoing research", "Technical research projects"],
     fields: ["Title", "Authors", "Venue", "Year", "Status", "DOI / link"],
   },
@@ -116,14 +121,6 @@ export const portfolio = {
     ["Project Management", ["Trello", "Jira", "Todoist"]],
     ["Languages", ["Bahasa Indonesia — Native speaker", "English — Full professional", "Chinese — Elementary"]],
   ],
-  about: {
-    biography: "[Short biography to be added.]",
-    currently: [
-      ["Studying", "Medicine at the University of Indonesia"],
-      ["Researching", "Clinical AI and digital health"],
-      ["Building", "Medical software and digital platforms"],
-    ],
-  },
 } as const;
 
 export type Portfolio = typeof portfolio;
