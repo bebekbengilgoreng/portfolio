@@ -1,65 +1,125 @@
+import { ArrowDownRight, ArrowUpRight, Download, Mail } from "lucide-react";
 import Image from "next/image";
+
+import { SiteNav } from "@/components/site-nav";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { portfolio } from "@/data/portfolio";
+import dicomScreenshot from "@/dicom-screenshot.png";
+
+function SectionIntro({ index, label, title, titleId }: { index: string; label: string; title: string; titleId: string }) {
+  return <header className="section-intro"><p className="eyebrow"><span>{index}</span> /{label}</p><h2 id={titleId}>{title}</h2></header>;
+}
+
+function PlaceholderLink({ children }: { children: React.ReactNode }) {
+  return <span className="placeholder-link" title="Link to be added">{children} <span aria-hidden="true">↗</span></span>;
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="site-shell">
+      <SiteNav />
+      <main>
+        <section id="top" className="hero wrap" aria-labelledby="page-title">
+          <p className="hero-rail" aria-hidden="true">PROFILE / 2026</p>
+          <div className="hero-kicker"><span>Medicine</span><span>Software</span><span>Research</span></div>
+          <div className="hero-copy">
+            <p className="eyebrow">Independent portfolio · Jakarta / ID</p>
+            <h1 id="page-title">{portfolio.person.name}</h1>
+            <p className="hero-title">{portfolio.person.title}</p>
+          </div>
+          <div className="hero-aside">
+            <p>{portfolio.person.introduction}</p>
+            <dl className="identity-list">
+              {portfolio.person.metadata.map((item, index) => <div key={item}><dt>0{index + 1}</dt><dd>{item}</dd></div>)}
+            </dl>
+            <div className="text-links" role="group" aria-label="Social links">
+              {portfolio.person.links.map((link) => link.href === "#" ? <PlaceholderLink key={link.label}>{link.label}</PlaceholderLink> : <a key={link.label} href={link.href} title={link.status}>{link.label}<ArrowUpRight aria-hidden="true" /></a>)}
+            </div>
+          </div>
+          <a className="hero-scroll" href="#projects">Selected work <ArrowDownRight aria-hidden="true" /></a>
+        </section>
+
+        <section id="projects" className="section wrap" aria-labelledby="projects-title">
+          <SectionIntro index="01" label="projects" title="Selected work" titleId="projects-title" />
+          <div className="projects-index">
+            {portfolio.projects.map((project) => project.featured ? (
+              <SpotlightCard key={project.number} className="project-featured">
+                <div className="project-number">{project.number}</div>
+                <div className="project-copy">
+                  <p className="project-context">{project.role} · {project.organization}</p>
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                  <dl className="project-meta">{project.metadata.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+                  <div className="text-links"><PlaceholderLink>Repository</PlaceholderLink><PlaceholderLink>Publication</PlaceholderLink></div>
+                </div>
+                <figure className="dicom-field">
+                  <a href={dicomScreenshot.src} target="_blank" rel="noreferrer" aria-label="Open the full-resolution DICOM viewer interface screenshot">
+                    <Image src={dicomScreenshot} alt="Cross-platform DICOM viewer showing axial, sagittal, and coronal CT views with AI-assisted organ segmentation" placeholder="blur" sizes="(max-width: 640px) calc(100vw - 3.2rem), (max-width: 900px) calc(100vw - 7rem), 46vw" />
+                  </a>
+                  <figcaption><span>Interface study · MPR / segmentation</span><span>Open full resolution ↗</span></figcaption>
+                </figure>
+              </SpotlightCard>
+            ) : (
+              <article className="project-row" key={project.number}>
+                <span className="project-number">{project.number}</span>
+                <div><p className="project-context">{project.role} · {project.period}</p><h3>{project.title}</h3></div>
+                <p>{project.description}</p><PlaceholderLink>Details</PlaceholderLink>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="experience" className="section wrap" aria-labelledby="experience-title">
+          <SectionIntro index="02" label="experience" title="Experience index" titleId="experience-title" />
+          <div className="experience-groups">
+            {portfolio.experience.map((group, groupIndex) => (
+              <div className="experience-group" key={group.group}>
+                <h3><span>0{groupIndex + 1}</span>{group.group}</h3>
+                <div>{group.items.map(([role, meta, description]) => <article className="experience-row" key={role}><p className="experience-meta">{meta}</p><h4>{role}</h4><p>{description}</p></article>)}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="research" className="section wrap" aria-labelledby="research-title">
+          <SectionIntro index="03" label="research" title="Research record" titleId="research-title" />
+          <SpotlightCard className="research-empty">
+            <div><p className="eyebrow">Record awaiting public details</p><h3>Work in progress, documented carefully.</h3></div>
+            <div className="research-note"><p>{portfolio.research.note}</p><p>{portfolio.research.types.join(" · ")}</p></div>
+            <div className="research-fields" role="list" aria-label="Future research entry fields">{portfolio.research.fields.map((field) => <span role="listitem" key={field}>{field}</span>)}</div>
+          </SpotlightCard>
+        </section>
+
+        <section className="section wrap split-section" aria-label="Education and skills">
+          <div>
+            <SectionIntro index="04" label="education" title="Education" titleId="education-title" />
+            <div className="education-record"><p>{portfolio.education.period}</p><h3>{portfolio.education.degree}</h3><p>{portfolio.education.school}<br />{portfolio.education.location}</p></div>
+          </div>
+          <div>
+            <SectionIntro index="05" label="skills" title="Working knowledge" titleId="skills-title" />
+            <div className="skills-matrix">{portfolio.skills.map(([group, items]) => <div key={group}><h3>{group}</h3><p>{items.join(" · ")}</p></div>)}</div>
+          </div>
+        </section>
+
+        <section id="about" className="section wrap about-section" aria-labelledby="about-title">
+          <SectionIntro index="06" label="about" title="A short note" titleId="about-title" />
+          <div className="about-copy"><h3>{portfolio.about.biography}</h3><p>This space is reserved for a concise first-person biography.</p></div>
+          <dl className="currently-list">{portfolio.about.currently.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+        </section>
+
+        <section id="contact" className="contact-section" aria-labelledby="contact-title">
+          <div className="wrap contact-grid">
+            <p className="eyebrow">07 /contact</p>
+            <div><h2 id="contact-title">Let&apos;s talk.</h2><p>For research, software, or collaboration.</p></div>
+            <div className="contact-actions">
+              <a href={`mailto:${portfolio.person.email}`}><Mail aria-hidden="true" />{portfolio.person.email}</a>
+              <a href="/michiel-aelis-wijaya-cv.pdf" download><Download aria-hidden="true" />Download CV</a>
+              <PlaceholderLink>LinkedIn</PlaceholderLink><PlaceholderLink>GitHub</PlaceholderLink>
+            </div>
+          </div>
+        </section>
       </main>
+      <footer className="footer wrap"><p>{portfolio.person.name}</p><p>© {new Date().getFullYear()} · Designed &amp; built by Michiel.</p></footer>
     </div>
   );
 }
